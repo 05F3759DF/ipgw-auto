@@ -16,5 +16,5 @@ if __name__ == '__main__':
             # print(str(e.reason) == 'timed out')
             if e.reason and str(e.reason) == 'timed out':
                 print(time.ctime(), 'reconnect')
-                os.system('./connect.sh connect domestic {0} {1}'.format('id', 'passwd')')
+                os.system('./connect.sh connect domestic {0} {1}'.format('id', 'passwd'))
         time.sleep(3600)
