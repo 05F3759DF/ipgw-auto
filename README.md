@@ -1,0 +1,1 @@
+The repo has been moved to [https://github.com/dog2cat/ipgw-auto](https://github.com/dog2cat/ipgw-auto).
