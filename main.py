@@ -17,34 +17,13 @@ if __name__ == '__main__':
                         help='set the log file.')
     parser.add_argument('-i', '--intervel', metavar='INTERVEL', type=int, default=1800,
                         help='set the intervel time.')
-    parser.add_argument('-u', '--id', metavar='ID', type=str, help='set the id.')
-    parser.add_argument('-w', '--password', metavar='PASSWORD', type=str, help='set the password.')
+    parser.add_argument('-u', '--id', metavar='ID',
+                        type=str, help='set the id.')
+    parser.add_argument('-w', '--password', metavar='PASSWORD',
+                        type=str, help='set the password.')
     parser.add_argument('-d', '--daemon', choices=['start', 'stop', 'restart'], nargs='?', const='start',
                         help='set if works in daemon mode.')
     args = parser.parse_args()
-    if args.daemon:
-        if args.daemon == 'start':
-            try:
-                daemon.daemonize(args.pidfile, stderr=args.logfile, stdout=args.logfile)
-            except RuntimeError as e:
-                print(e, file=sys.stderr)
-                raise SystemExit(1)
-        elif args.daemon == 'stop':
-            daemon.stop(args.pidfile)
-            raise SystemExit(1)
-        elif args.daemon == 'restart':
-            daemon.stop(args.pidfile)
-            try:
-                daemon.daemonize(args.pidfile, stderr=args.logfile, stdout=args.logfile)
-            except RuntimeError as e:
-                print(e, file=sys.stderr)
-                raise SystemExit(1)
-        else:
-            print('Unknown command {!r}'.format(sys.argv[1]), file=sys.stderr)
-            raise SystemExit(1)
-    else:
-        if os.path.exists(args.pidfile):
-            raise RuntimeError('Already running')
 
     if args.id:
         id = args.id
@@ -56,6 +35,31 @@ if __name__ == '__main__':
         id = input('Input your id:')
         password = getpass.getpass('Input your password:')
 
+    if args.daemon:
+        if args.daemon == 'start':
+            try:
+                daemon.daemonize(
+                    args.pidfile, stderr=args.logfile, stdout=args.logfile)
+            except RuntimeError as e:
+                print(e, file=sys.stderr)
+                raise SystemExit(1)
+        elif args.daemon == 'stop':
+            daemon.stop(args.pidfile)
+            raise SystemExit(1)
+        elif args.daemon == 'restart':
+            daemon.stop(args.pidfile)
+            try:
+                daemon.daemonize(
+                    args.pidfile, stderr=args.logfile, stdout=args.logfile)
+            except RuntimeError as e:
+                print(e, file=sys.stderr)
+                raise SystemExit(1)
+        else:
+            print('Unknown command {!r}'.format(sys.argv[1]), file=sys.stderr)
+            raise SystemExit(1)
+    else:
+        if os.path.exists(args.pidfile):
+            raise RuntimeError('Already running')
 
     while True:
         url = 'http://www.baidu.com'
